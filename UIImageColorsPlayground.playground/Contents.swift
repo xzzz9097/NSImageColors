@@ -1,10 +1,10 @@
 //: Playground - noun: a place where people can play
 
 import Cocoa
-import XCPlayground
+import PlaygroundSupport
 import UIImageColors
 
-XCPlaygroundPage.currentPage.needsIndefiniteExecution = true
+PlaygroundPage.current.needsIndefiniteExecution = true
 
 let Albums: [Album] = [
     Album(albumFile: "OK Computer.png", albumName: "OK Computer", artistName: "Radiohead", year: 1997),
@@ -57,5 +57,5 @@ func makeBox(_ asynchronous: Bool, completionHandler: @escaping (NSView) -> Void
 // Make a box of albums
 makeBox(true) { box in
     box.layer?.opacity = 1
-    XCPlaygroundPage.currentPage.finishExecution()
+    PlaygroundPage.current.finishExecution()
 }
