@@ -1,6 +1,6 @@
 //: Playground - noun: a place where people can play
 
-import UIKit
+import Cocoa
 import XCPlayground
 import UIImageColors
 
@@ -21,10 +21,10 @@ let Albums: [Album] = [
     Album(albumFile: "Black on Both Sides.png", albumName: "Black on Both Sides", artistName: "Mos Def", year: 1999)
 ]
 
-func makeBox(_ asynchronous: Bool, completionHandler: @escaping (UIView) -> Void) {
+func makeBox(_ asynchronous: Bool, completionHandler: @escaping (NSView) -> Void) {
     let maxIterations = CGFloat(Albums.count)
     let sample = Container(album: Albums[0])
-    let box = UIView(frame: CGRect(x: 0, y: 0, width: sample.frame.width*2, height: ceil(maxIterations/2)*sample.frame.height))
+    let box = NSView(frame: CGRect(x: 0, y: 0, width: sample.frame.width*2, height: ceil(maxIterations/2)*sample.frame.height))
     
     for i in stride(from: CGFloat(0), to: maxIterations, by: 1) {
         let c = Container(album: Albums[Int(i)])
@@ -33,7 +33,7 @@ func makeBox(_ asynchronous: Bool, completionHandler: @escaping (UIView) -> Void
 
         if asynchronous {
             c.albumImageView.image!.getColors { colors in
-                c.backgroundColor = colors.backgroundColor
+                c.layer?.backgroundColor = colors.backgroundColor as! CGColor?
                 c.albumTitle.textColor = colors.primaryColor
                 c.artistTitle.textColor = colors.secondaryColor
                 c.yearLabel.textColor = colors.detailColor
@@ -43,7 +43,7 @@ func makeBox(_ asynchronous: Bool, completionHandler: @escaping (UIView) -> Void
             }
         } else {
             let colors = c.albumImageView.image!.getColors()
-            c.backgroundColor = colors.backgroundColor
+            c.layer?.backgroundColor = colors.backgroundColor as! CGColor?
             c.albumTitle.textColor = colors.primaryColor
             c.artistTitle.textColor = colors.secondaryColor
             c.yearLabel.textColor = colors.detailColor
@@ -56,6 +56,6 @@ func makeBox(_ asynchronous: Bool, completionHandler: @escaping (UIView) -> Void
 
 // Make a box of albums
 makeBox(true) { box in
-    box.alpha = 1
+    box.layer?.opacity = 1
     XCPlaygroundPage.currentPage.finishExecution()
 }

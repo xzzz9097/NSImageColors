@@ -6,7 +6,7 @@
 //  Copyright © 2016 Jathu Satkunarajah (@jathu) - Toronto. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Cocoa/Cocoa.h>
 
 //! Project version number for UIImageColors.
 FOUNDATION_EXPORT double UIImageColorsVersionNumber;

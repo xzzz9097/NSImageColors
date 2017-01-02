@@ -1,4 +1,4 @@
-import UIKit
+import Cocoa
 
 open class Album {
     open let albumFile: String
@@ -14,37 +14,37 @@ open class Album {
     }
 }
 
-open class Container: UIView {
+open class Container: NSView {
     
-    open var albumImageView: UIImageView!
-    open var albumTitle:UILabel!
-    open var artistTitle:UILabel!
-    open var yearLabel:UILabel!
+    open var albumImageView: NSImageView!
+    open var albumTitle:NSTextField!
+    open var artistTitle:NSTextField!
+    open var yearLabel:NSTextField!
     
     public init(album: Album) {
         super.init(frame: CGRect(x: 0, y: 0, width: 444, height: 120))
         
         // Album artwork
-        albumImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: self.frame.height, height: self.frame.height))
-        albumImageView.image = UIImage(named: album.albumFile)
+        albumImageView = NSImageView(frame: CGRect(x: 0, y: 0, width: self.frame.height, height: self.frame.height))
+        albumImageView.image = NSImage(named: album.albumFile)
         self.addSubview(albumImageView)
         
         // Text
-        albumTitle = UILabel()
-        albumTitle.font = UIFont(name: "Helvetica-Bold", size: 17)
-        albumTitle.text = album.albumName
+        albumTitle = NSTextField()
+        albumTitle.font = NSFont(name: "Helvetica-Bold", size: 17)
+        albumTitle.stringValue = album.albumName
         albumTitle.sizeToFit()
         self.addSubview(albumTitle)
         
-        artistTitle = UILabel()
-        artistTitle.font = UIFont(name: "Helvetica-Bold", size: albumTitle.font.pointSize*0.75)
-        artistTitle.text = album.artistName
+        artistTitle = NSTextField()
+        artistTitle.font = NSFont(name: "Helvetica-Bold", size: (albumTitle.font?.pointSize)!*0.75)
+        artistTitle.stringValue = album.artistName
         artistTitle.sizeToFit()
         self.addSubview(artistTitle)
         
-        yearLabel = UILabel()
+        yearLabel = NSTextField()
         yearLabel.font = artistTitle.font
-        yearLabel.text = " · \(album.year)"
+        yearLabel.stringValue = " · \(album.year)"
         yearLabel.sizeToFit()
         self.addSubview(yearLabel)
         
