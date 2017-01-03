@@ -22,7 +22,7 @@ open class Container: NSView {
     open var yearLabel:NSTextField!
     
     public init(album: Album) {
-        super.init(frame: CGRect(x: 0, y: 0, width: 444, height: 120))
+        super.init(frame: NSMakeRect(0, 0, 444, 120))
         
         // Album artwork
         albumImageView = NSImageView(frame: CGRect(x: 0, y: 0, width: self.frame.height, height: self.frame.height))
