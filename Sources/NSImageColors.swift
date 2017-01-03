@@ -109,7 +109,7 @@ extension NSImage {
         return maskRef!
     }
     
-    private func resizeForUIImageColors(newSize: CGSize) -> NSImage {
+    private func resizeForImageColors(newSize: CGSize) -> NSImage {
         let temp = NSImage(size: newSize)
         
         temp.lockFocus()
@@ -128,11 +128,11 @@ extension NSImage {
     }
     
     /**
-     Get `UIImageColors` from the image asynchronously (in background thread).
+     Get `ImageColors` from the image asynchronously (in background thread).
      Discussion: Use smaller sizes for better performance at the cost of quality colors. Use larger sizes for better color sampling and quality at the cost of performance.
      
      - parameter scaleDownSize:     Downscale size of image for sampling, if `CGSize.zero` is provided, the sample image is rescaled to a width of 250px and the aspect ratio height.
-     - parameter completionHandler: `UIImageColors` for this image.
+     - parameter completionHandler: `ImageColors` for this image.
      */
     public func getColors(scaleDownSize: CGSize = CGSize.zero, completionHandler: @escaping (ImageColors) -> Void) {
         DispatchQueue.global().async {
@@ -145,12 +145,12 @@ extension NSImage {
     }
     
     /**
-     Get `UIImageColors` from the image synchronously (in main thread).
+     Get `ImageColors` from the image synchronously (in main thread).
      Discussion: Use smaller sizes for better performance at the cost of quality colors. Use larger sizes for better color sampling and quality at the cost of performance.
      
      - parameter scaleDownSize: Downscale size of image for sampling, if `CGSize.zero` is provided, the sample image is rescaled to a width of 250px and the aspect ratio height.
      
-     - returns: `UIImageColors` for this image.
+     - returns: `ImageColors` for this image.
      */
     public func getColors(scaleDownSize: CGSize = CGSize.zero) -> ImageColors {
         
@@ -164,7 +164,7 @@ extension NSImage {
         
         var result = ImageColors()
         
-        let image = self.resizeForUIImageColors(newSize: scaleDownSize)
+        let image = self.resizeForImageColors(newSize: scaleDownSize)
         
         let cgImage = image.cgImage
         let width = cgImage.width
@@ -194,7 +194,7 @@ extension NSImage {
         }
         let bitmapInfo = CGImageAlphaInfo.premultipliedFirst.rawValue
         guard let ctx = CGContext(data: raw, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo) else {
-            fatalError("UIImageColors.getColors failed: could not create CGBitmapContext")
+            fatalError("ImageColors.getColors failed: could not create CGBitmapContext")
         }
         let drawingRect = CGRect(x: 0, y: 0, width: CGFloat(width), height: CGFloat(height))
         ctx.draw(cgImage, in: drawingRect)
