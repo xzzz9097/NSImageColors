@@ -6,6 +6,8 @@ import UIImageColors
 
 PlaygroundPage.current.needsIndefiniteExecution = true
 
+var shouldSetPlaygroundLiveView = false
+
 let Albums: [Album] = [
     Album(albumFile: "OK Computer.png", albumName: "OK Computer", artistName: "Radiohead", year: 1997),
     Album(albumFile: "Nothing Was the Same.png", albumName: "Nothing Was the Same", artistName: "Drake", year: 2013),
@@ -56,7 +58,10 @@ func makeBox(_ asynchronous: Bool, completionHandler: @escaping (NSView) -> Void
 
 // Make a box of albums
 makeBox(false) { box in
-    // View will appear here!
-    box
-    PlaygroundPage.current.finishExecution()
+    if shouldSetPlaygroundLiveView {
+        PlaygroundPage.current.liveView = box
+    } else {
+        box // View will appear here!
+        PlaygroundPage.current.finishExecution()
+    }
 }
