@@ -8,11 +8,11 @@
 
 import Cocoa
 
-public struct NSImageColors {
-    public var backgroundColor: NSColor!
-    public var primaryColor: NSColor!
-    public var secondaryColor: NSColor!
-    public var detailColor: NSColor!
+public struct ImageColors {
+    public var background: NSColor!
+    public var primary: NSColor!
+    public var secondary: NSColor!
+    public var detail: NSColor!
 }
 
 class PCCountedColor {
@@ -129,7 +129,7 @@ extension NSImage {
      - parameter scaleDownSize:     Downscale size of image for sampling, if `CGSize.zero` is provided, the sample image is rescaled to a width of 250px and the aspect ratio height.
      - parameter completionHandler: `UIImageColors` for this image.
      */
-    public func getColors(scaleDownSize: CGSize = CGSize.zero, completionHandler: @escaping (NSImageColors) -> Void) {
+    public func getColors(scaleDownSize: CGSize = CGSize.zero, completionHandler: @escaping (ImageColors) -> Void) {
         DispatchQueue.global().async {
             let result = self.getColors(scaleDownSize: scaleDownSize)
             
@@ -147,7 +147,7 @@ extension NSImage {
      
      - returns: `UIImageColors` for this image.
      */
-    public func getColors(scaleDownSize: CGSize = CGSize.zero) -> NSImageColors {
+    public func getColors(scaleDownSize: CGSize = CGSize.zero) -> ImageColors {
         
         var scaleDownSize = scaleDownSize
         
@@ -157,7 +157,7 @@ extension NSImage {
             scaleDownSize = CGSize(width: r_width, height: r_width/ratio)
         }
         
-        var result = NSImageColors()
+        var result = ImageColors()
         
         let image = self.resizeForUIImageColors(newSize: scaleDownSize)
         
@@ -249,13 +249,13 @@ extension NSImage {
                 }
             }
         }
-        result.backgroundColor = proposedEdgeColor.color
+        result.background = proposedEdgeColor.color
         
         // Get foreground colors
         enumerator = imageColors.objectEnumerator()
         sortedColors.removeAllObjects()
         sortedColors = NSMutableArray(capacity: imageColors.count)
-        let findDarkTextColor = !result.backgroundColor.isDarkColor
+        let findDarkTextColor = !result.background.isDarkColor
         
         while var kolor = enumerator.nextObject() as? NSColor {
             kolor = kolor.colorWithMinimumSaturation(minSaturation: 0.15)
@@ -269,41 +269,48 @@ extension NSImage {
         for curContainer in sortedColors {
             let kolor = (curContainer as! PCCountedColor).color
             
-            if result.primaryColor == nil {
-                if kolor.isContrastingColor(compareColor: result.backgroundColor) {
-                    result.primaryColor = kolor
+            if result.primary == nil {
+                if kolor.isContrastingColor(compareColor: result.background) {
+                    result.primary = kolor
                 }
-            } else if result.secondaryColor == nil {
-                if !result.primaryColor.isDistinct(compareColor: kolor) || !kolor.isContrastingColor(compareColor: result.backgroundColor) {
+            } else if result.secondary == nil {
+                if !result.primary.isDistinct(compareColor: kolor) || !kolor.isContrastingColor(compareColor: result.background) {
                     continue
                 }
                 
-                result.secondaryColor = kolor
-            } else if result.detailColor == nil {
-                if !result.secondaryColor.isDistinct(compareColor: kolor) || !result.primaryColor.isDistinct(compareColor: kolor) || !kolor.isContrastingColor(compareColor: result.backgroundColor) {
+                result.secondary = kolor
+            } else if result.detail == nil {
+                if !result.secondary.isDistinct(compareColor: kolor) || !result.primary.isDistinct(compareColor: kolor) || !kolor.isContrastingColor(compareColor: result.background) {
                     continue
                 }
                 
-                result.detailColor = kolor
+                result.detail = kolor
                 break
             }
         }
         
-        let isDarkBackgound = result.backgroundColor.isDarkColor
+        let isDarkBackgound = result.background.isDarkColor
         
-        if result.primaryColor == nil {
-            result.primaryColor = isDarkBackgound ? whiteColor:blackColor
+        if result.primary == nil {
+            result.primary = isDarkBackgound ? whiteColor:blackColor
         }
         
-        if result.secondaryColor == nil {
-            result.secondaryColor = isDarkBackgound ? whiteColor:blackColor
+        if result.secondary == nil {
+            result.secondary = isDarkBackgound ? whiteColor:blackColor
         }
         
-        if result.detailColor == nil {
-            result.detailColor = isDarkBackgound ? whiteColor:blackColor
+        if result.detail == nil {
+            result.detail = isDarkBackgound ? whiteColor:blackColor
         }
         
         return result
+    }
+    
+    /**
+     Returns image colors as a handy var
+     */
+    public var colors: ImageColors {
+        return getColors()
     }
 }
 

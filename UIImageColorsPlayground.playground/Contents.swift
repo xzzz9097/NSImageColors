@@ -15,7 +15,7 @@ let images = [NSImage(named: "Black on Both Sides.png"),
 var colors: [NSColor] = []
 
 for image in images {
-    colors.append((image?.getColors().backgroundColor)!)
+    colors.append((image?.colors.background)!)
 }
 
 colors
