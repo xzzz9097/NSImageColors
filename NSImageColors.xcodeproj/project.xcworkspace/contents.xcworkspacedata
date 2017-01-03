@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:UIImageColors.xcodeproj">
+      location = "self:/Users/lyrae/Public/UIImageColors/NSImageColors.xcodeproj">
    </FileRef>
 </Workspace>

@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		035BC84A1DABA020006CA9BE /* UIImageColors.h in Headers */ = {isa = PBXBuildFile; fileRef = 035BC8491DABA020006CA9BE /* UIImageColors.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		035BC84C1DABA027006CA9BE /* UIImageColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035BC84B1DABA027006CA9BE /* UIImageColors.swift */; };
+		035BC84A1DABA020006CA9BE /* NSImageColors.h in Headers */ = {isa = PBXBuildFile; fileRef = 035BC8491DABA020006CA9BE /* NSImageColors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		035BC84C1DABA027006CA9BE /* NSImageColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035BC84B1DABA027006CA9BE /* NSImageColors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		035BC83D1DAB9FED006CA9BE /* UIImageColors.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UIImageColors.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		035BC8491DABA020006CA9BE /* UIImageColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageColors.h; sourceTree = "<group>"; };
-		035BC84B1DABA027006CA9BE /* UIImageColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageColors.swift; sourceTree = "<group>"; };
+		035BC83D1DAB9FED006CA9BE /* NSImageColors.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NSImageColors.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		035BC8491DABA020006CA9BE /* NSImageColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSImageColors.h; sourceTree = "<group>"; };
+		035BC84B1DABA027006CA9BE /* NSImageColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSImageColors.swift; sourceTree = "<group>"; };
 		035BC84E1DABA02E006CA9BE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		035BC8501DABA037006CA9BE /* UIImageColorsPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = UIImageColorsPlayground.playground; sourceTree = "<group>"; };
+		035BC8501DABA037006CA9BE /* NSImageColorsPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = NSImageColorsPlayground.playground; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,8 +33,8 @@
 		035BC8331DAB9FED006CA9BE = {
 			isa = PBXGroup;
 			children = (
-				035BC8501DABA037006CA9BE /* UIImageColorsPlayground.playground */,
-				035BC83F1DAB9FED006CA9BE /* UIImageColors */,
+				035BC8501DABA037006CA9BE /* NSImageColorsPlayground.playground */,
+				035BC83F1DAB9FED006CA9BE /* NSImageColors */,
 				035BC83E1DAB9FED006CA9BE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -42,25 +42,26 @@
 		035BC83E1DAB9FED006CA9BE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				035BC83D1DAB9FED006CA9BE /* UIImageColors.framework */,
+				035BC83D1DAB9FED006CA9BE /* NSImageColors.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		035BC83F1DAB9FED006CA9BE /* UIImageColors */ = {
+		035BC83F1DAB9FED006CA9BE /* NSImageColors */ = {
 			isa = PBXGroup;
 			children = (
 				035BC8481DABA020006CA9BE /* Sources */,
 				035BC84D1DABA02E006CA9BE /* Supporting Files */,
 			);
+			name = NSImageColors;
 			path = UIImageColors;
 			sourceTree = "<group>";
 		};
 		035BC8481DABA020006CA9BE /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				035BC8491DABA020006CA9BE /* UIImageColors.h */,
-				035BC84B1DABA027006CA9BE /* UIImageColors.swift */,
+				035BC8491DABA020006CA9BE /* NSImageColors.h */,
+				035BC84B1DABA027006CA9BE /* NSImageColors.swift */,
 			);
 			path = Sources;
 			sourceTree = SOURCE_ROOT;
@@ -80,16 +81,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				035BC84A1DABA020006CA9BE /* UIImageColors.h in Headers */,
+				035BC84A1DABA020006CA9BE /* NSImageColors.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		035BC83C1DAB9FED006CA9BE /* UIImageColors */ = {
+		035BC83C1DAB9FED006CA9BE /* NSImageColors */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 035BC8451DAB9FED006CA9BE /* Build configuration list for PBXNativeTarget "UIImageColors" */;
+			buildConfigurationList = 035BC8451DAB9FED006CA9BE /* Build configuration list for PBXNativeTarget "NSImageColors" */;
 			buildPhases = (
 				035BC8381DAB9FED006CA9BE /* Sources */,
 				035BC8391DAB9FED006CA9BE /* Frameworks */,
@@ -100,9 +101,9 @@
 			);
 			dependencies = (
 			);
-			name = UIImageColors;
+			name = NSImageColors;
 			productName = UIImageColors;
-			productReference = 035BC83D1DAB9FED006CA9BE /* UIImageColors.framework */;
+			productReference = 035BC83D1DAB9FED006CA9BE /* NSImageColors.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -121,7 +122,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 035BC8371DAB9FED006CA9BE /* Build configuration list for PBXProject "UIImageColors" */;
+			buildConfigurationList = 035BC8371DAB9FED006CA9BE /* Build configuration list for PBXProject "NSImageColors" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -133,7 +134,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				035BC83C1DAB9FED006CA9BE /* UIImageColors */,
+				035BC83C1DAB9FED006CA9BE /* NSImageColors */,
 			);
 		};
 /* End PBXProject section */
@@ -153,7 +154,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				035BC84C1DABA027006CA9BE /* UIImageColors.swift in Sources */,
+				035BC84C1DABA027006CA9BE /* NSImageColors.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,7 +302,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		035BC8371DAB9FED006CA9BE /* Build configuration list for PBXProject "UIImageColors" */ = {
+		035BC8371DAB9FED006CA9BE /* Build configuration list for PBXProject "NSImageColors" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				035BC8431DAB9FED006CA9BE /* Debug */,
@@ -310,7 +311,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		035BC8451DAB9FED006CA9BE /* Build configuration list for PBXNativeTarget "UIImageColors" */ = {
+		035BC8451DAB9FED006CA9BE /* Build configuration list for PBXNativeTarget "NSImageColors" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				035BC8461DAB9FED006CA9BE /* Debug */,

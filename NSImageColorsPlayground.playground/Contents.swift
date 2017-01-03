@@ -2,7 +2,7 @@
 
 import Cocoa
 import PlaygroundSupport
-import UIImageColors
+import NSImageColors
 
 PlaygroundPage.current.needsIndefiniteExecution = true
 
