@@ -97,10 +97,15 @@ extension NSColor {
 }
 
 extension NSImage {
+    
+    /**
+     Get a `CGImage` from the NSImage
+     */
     var cgImage: CGImage {
         let imageData = self.tiffRepresentation
         let source = CGImageSourceCreateWithData(imageData as! CFData, nil)
         let maskRef = CGImageSourceCreateImageAtIndex(source!, 0, nil)
+        
         return maskRef!
     }
     
@@ -307,10 +312,11 @@ extension NSImage {
     }
     
     /**
-     Returns image colors as a handy var
+     Get current image's `ImageColors` as a handy var
      */
     public var colors: ImageColors {
         return getColors()
     }
+    
 }
 
