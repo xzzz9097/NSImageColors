@@ -6,20 +6,6 @@ import UIImageColors
 
 PlaygroundPage.current.needsIndefiniteExecution = true
 
-let images = [NSImage(named: "Black on Both Sides.png"),
-              NSImage(named: "Cupid Deluxe.png"),
-              NSImage(named: "If You're Reading This It's Too Late.png"),
-              NSImage(named: "Kind of Blue.png"),
-              NSImage(named: "My Beautiful Dark Twisted Fantasy.png")]
-
-var colors: [NSColor] = []
-
-for image in images {
-    colors.append((image?.colors.background)!)
-}
-
-colors
-
 let Albums: [Album] = [
     Album(albumFile: "OK Computer.png", albumName: "OK Computer", artistName: "Radiohead", year: 1997),
     Album(albumFile: "Nothing Was the Same.png", albumName: "Nothing Was the Same", artistName: "Drake", year: 2013),
@@ -70,6 +56,7 @@ func makeBox(_ asynchronous: Bool, completionHandler: @escaping (NSView) -> Void
 
 // Make a box of albums
 makeBox(false) { box in
-    box.layer?.opacity = 1.0
+    // View will appear here!
+    box
     PlaygroundPage.current.finishExecution()
 }

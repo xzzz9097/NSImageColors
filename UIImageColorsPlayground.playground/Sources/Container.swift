@@ -14,6 +14,18 @@ open class Album {
     }
 }
 
+public extension NSTextField {
+    /**
+     Makes the field completely transparent
+     like iOS's UILabel
+     */
+    func makeTransparent() {
+        self.isBezeled       = false;
+        self.isEditable      = false;
+        self.drawsBackground = false;
+    }
+}
+
 open class Container: NSView {
     
     open var albumImageView: NSImageView!
@@ -23,6 +35,8 @@ open class Container: NSView {
     
     public init(album: Album) {
         super.init(frame: NSMakeRect(0, 0, 444, 120))
+        
+        self.wantsLayer = true
         
         // Album artwork
         albumImageView = NSImageView(frame: CGRect(x: 0, y: 0, width: self.frame.height, height: self.frame.height))
@@ -34,18 +48,21 @@ open class Container: NSView {
         albumTitle.font = NSFont(name: "Helvetica-Bold", size: 17)
         albumTitle.stringValue = album.albumName
         albumTitle.sizeToFit()
+        albumTitle.makeTransparent()
         self.addSubview(albumTitle)
         
         artistTitle = NSTextField()
         artistTitle.font = NSFont(name: "Helvetica-Bold", size: (albumTitle.font?.pointSize)!*0.75)
         artistTitle.stringValue = album.artistName
         artistTitle.sizeToFit()
+        artistTitle.makeTransparent()
         self.addSubview(artistTitle)
         
         yearLabel = NSTextField()
         yearLabel.font = artistTitle.font
         yearLabel.stringValue = " · \(album.year)"
         yearLabel.sizeToFit()
+        yearLabel.makeTransparent()
         self.addSubview(yearLabel)
         
         // Set frames
