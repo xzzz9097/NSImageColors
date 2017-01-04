@@ -27,14 +27,12 @@ class PCCountedColor {
 
 extension CGColor {
     var components: [CGFloat] {
-        get {
-            var red = CGFloat()
-            var green = CGFloat()
-            var blue = CGFloat()
-            var alpha = CGFloat()
-            NSColor(cgColor: self)?.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-            return [red,green,blue,alpha]
-        }
+        var red = CGFloat()
+        var green = CGFloat()
+        var blue = CGFloat()
+        var alpha = CGFloat()
+        NSColor(cgColor: self)?.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        return [red,green,blue,alpha]
     }
 }
 
