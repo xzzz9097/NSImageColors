@@ -107,7 +107,7 @@ extension NSImage {
         return maskRef!
     }
     
-    private func resizeForImageColors(newSize: CGSize) -> NSImage {
+    func resized(to newSize: CGSize) -> NSImage {
         let temp = NSImage(size: newSize)
         
         temp.lockFocus()
@@ -162,7 +162,7 @@ extension NSImage {
         
         var result = ImageColors()
         
-        let image = self.resizeForImageColors(newSize: scaleDownSize)
+        let image = self.resized(to: scaleDownSize)
         
         let cgImage = image.cgImage
         let width = cgImage.width
