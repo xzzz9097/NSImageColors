@@ -1,6 +1,6 @@
 # NSImageColors
 
-iTunes style color fetcher for NSImage. This is an *almost* identical port of [Panic's OS X ColorArt](https://github.com/panicinc/ColorArt/) for iOS Swift.
+iTunes style color fetcher for NSImage. This is based on [Panic's OS X ColorArt](https://github.com/panicinc/ColorArt/) for iOS Swift.
 
 In other words, it fetches the most dominant and prominent colors.
 

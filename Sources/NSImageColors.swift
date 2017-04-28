@@ -27,12 +27,14 @@ class PCCountedColor {
 
 extension CGColor {
     var components: [CGFloat] {
-        var red = CGFloat()
-        var green = CGFloat()
-        var blue = CGFloat()
-        var alpha = CGFloat()
-        NSColor(cgColor: self)?.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-        return [red,green,blue,alpha]
+        get {
+            var red = CGFloat()
+            var green = CGFloat()
+            var blue = CGFloat()
+            var alpha = CGFloat()
+            NSColor(cgColor: self)?.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+            return [red,green,blue,alpha]
+        }
     }
 }
 
@@ -175,15 +177,13 @@ extension NSImage {
         
         var result = ImageColors()
         
-        let image = self.resized(to: scaleDownSize)
+        let cgImage = self.resized(to: scaleDownSize).cgImage
+        let width: Int = cgImage.width
+        let height: Int = cgImage.height
         
-        let cgImage = image.cgImage
-        let width = cgImage.width
-        let height = cgImage.height
+        let blackColor = NSColor(red: 0, green: 0, blue: 0, alpha: 1)
+        let whiteColor = NSColor(red: 1, green: 1, blue: 1, alpha: 1)
         
-        let bytesPerPixel: Int = 4
-        let bytesPerRow: Int = width * bytesPerPixel
-        let bitsPerComponent: Int = 8
         let randomColorsThreshold = Int(CGFloat(height)*0.01)
         let sortedColorComparator: Comparator = { (main, other) -> ComparisonResult in
             let m = main as! PCCountedColor, o = other as! PCCountedColor
@@ -195,50 +195,35 @@ extension NSImage {
                 return ComparisonResult.orderedAscending
             }
         }
-        let blackColor = NSColor(red: 0, green: 0, blue: 0, alpha: 1)
-        let whiteColor = NSColor(red: 1, green: 1, blue: 1, alpha: 1)
+
+        guard let data = CFDataGetBytePtr(cgImage.dataProvider!.data) else {
         
-        let colorSpace = CGColorSpaceCreateDeviceRGB()
-        let raw = malloc(bytesPerRow * height)
-        defer {
-            free(raw)
+            fatalError("NSImageColors.getColors failed: could not get cgImage data")
         }
-        let bitmapInfo = CGImageAlphaInfo.premultipliedFirst.rawValue
-        guard let ctx = CGContext(data: raw, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo) else {
-            fatalError("ImageColors.getColors failed: could not create CGBitmapContext")
-        }
-        let drawingRect = CGRect(x: 0, y: 0, width: CGFloat(width), height: CGFloat(height))
-        ctx.draw(cgImage, in: drawingRect)
         
-        let data = ctx.data?.assumingMemoryBound(to: UInt8.self)
-        
-        let leftEdgeColors = NSCountedSet(capacity: height)
+        // Filter out and collect pixels from image
         let imageColors = NSCountedSet(capacity: width * height)
         
         for x in 0..<width {
             for y in 0..<height {
-                let pixel = ((width * y) + x) * bytesPerPixel
-                let color = NSColor(
-                    red: CGFloat((data?[pixel+1])!)/255,
-                    green: CGFloat((data?[pixel+2])!)/255,
-                    blue: CGFloat((data?[pixel+3])!)/255,
-                    alpha: 1
-                )
-                
-                // A lot of images have white or black edges from crops, so ignore the first few pixels
-                if 5 <= x && x <= 10 {
-                    leftEdgeColors.add(color)
+                let pixel: Int = ((width * y) + x) * 4
+                // Only consider pixels with 50% opacity or higher
+                if 127 <= data[pixel+3] {
+                    imageColors.add(NSColor(
+                        red: CGFloat(data[pixel+2])/255,
+                        green: CGFloat(data[pixel+1])/255,
+                        blue: CGFloat(data[pixel])/255,
+                        alpha: 1.0
+                    ))
                 }
-                
-                imageColors.add(color)
             }
         }
         
         // Get background color
-        var enumerator = leftEdgeColors.objectEnumerator()
-        var sortedColors = NSMutableArray(capacity: leftEdgeColors.count)
+        var enumerator = imageColors.objectEnumerator()
+        var sortedColors = NSMutableArray(capacity: imageColors.count)
         while let kolor = enumerator.nextObject() as? NSColor {
-            let colorCount = leftEdgeColors.count(for: kolor)
+            let colorCount = imageColors.count(for: kolor)
             if randomColorsThreshold < colorCount  {
                 sortedColors.add(PCCountedColor(color: kolor, count: colorCount))
             }
