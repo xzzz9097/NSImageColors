@@ -177,7 +177,9 @@ extension NSImage {
         
         var result = ImageColors()
         
-        let cgImage = self.resized(to: scaleDownSize).cgImage
+        let image = self.resized(to: scaleDownSize)
+        let cgImage = image.cgImage
+        
         let width: Int = cgImage.width
         let height: Int = cgImage.height
         
@@ -195,10 +197,10 @@ extension NSImage {
                 return ComparisonResult.orderedAscending
             }
         }
-
-        guard let data = CFDataGetBytePtr(cgImage.dataProvider!.data) else {
         
-            fatalError("NSImageColors.getColors failed: could not get cgImage data")
+        // On macOS we can use NSImage tiffRepresentation as data
+        guard let data = image.tiffRepresentation else {
+            fatalError("UIImageColors.getColors failed: could not get cgImage data")
         }
         
         // Filter out and collect pixels from image
@@ -207,6 +209,7 @@ extension NSImage {
         for x in 0..<width {
             for y in 0..<height {
                 let pixel: Int = ((width * y) + x) * 4
+                
                 // Only consider pixels with 50% opacity or higher
                 if 127 <= data[pixel+3] {
                     imageColors.add(NSColor(
