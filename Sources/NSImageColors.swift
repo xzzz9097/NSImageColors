@@ -140,6 +140,20 @@ extension NSImage {
         return result
     }
     
+    func imageDataResized(to newSize: CGSize) -> UnsafePointer<UInt8>? {
+        let temp = NSImage(size: newSize)
+
+        temp.lockFocus()
+
+        self.draw(in: NSMakeRect(0, 0, temp.size.width, temp.size.height))
+
+        temp.unlockFocus()
+
+        let cgImage = temp.cgImage(forProposedRect: nil, context: nil, hints: nil)
+
+        return CFDataGetBytePtr(cgImage!.dataProvider!.data)
+    }
+
     /**
      Get `ImageColors` from the image asynchronously (in background thread).
      Discussion: Use smaller sizes for better performance at the cost of quality colors. Use larger sizes for better color sampling and quality at the cost of performance.
@@ -177,11 +191,8 @@ extension NSImage {
         
         var result = ImageColors()
         
-        let image = self.resized(to: scaleDownSize)
-        let cgImage = image.cgImage
-        
-        let width: Int = cgImage.width
-        let height: Int = cgImage.height
+        let width = Int(scaleDownSize.width)
+        let height = Int(scaleDownSize.height)
         
         let blackColor = NSColor(red: 0, green: 0, blue: 0, alpha: 1)
         let whiteColor = NSColor(red: 1, green: 1, blue: 1, alpha: 1)
@@ -198,8 +209,8 @@ extension NSImage {
             }
         }
         
-        // On macOS we can use NSImage tiffRepresentation as data
-        guard let data = image.tiffRepresentation else {
+        // Directly get correct image data
+        guard let data = self.imageDataResized(to: scaleDownSize) else {
             fatalError("UIImageColors.getColors failed: could not get cgImage data")
         }
         
