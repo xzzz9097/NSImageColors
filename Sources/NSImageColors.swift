@@ -122,34 +122,21 @@ extension NSImage {
         return maskRef!
     }
     
-    func resized(to newSize: CGSize) -> NSImage {
-        let temp = NSImage(size: newSize)
-        
-        temp.lockFocus()
-        
-        self.draw(in: NSMakeRect(0, 0, temp.size.width, temp.size.height))
-        
-        temp.unlockFocus()
-        
-        let cgImage = temp.cgImage(forProposedRect: nil, context: nil, hints: nil)
-        let bitmapImage = NSBitmapImageRep(cgImage: cgImage!)
-        
-        let result = NSImage(size: newSize)
-        result.addRepresentation(bitmapImage)
-        
-        return result
-    }
-    
+    /**
+     Draws a CGImage of given size with content from NSImage instance
+     - parameter newSize: size of the new CGImage
+     */
     func resizedCGImage(to newSize: CGSize) -> CGImage? {
         let temp = NSImage(size: newSize)
         
         temp.lockFocus()
         
-        self.draw(in: NSMakeRect(0, 0, newSize.width, newSize.height), from: NSMakeRect(0, 0, self.size.width, self.size.height), operation: NSCompositingOperation.sourceOver, fraction: CGFloat(1))
+        self.draw(in:        NSMakeRect(0, 0, newSize.width, newSize.height),
+                  from:      NSMakeRect(0, 0, self.size.width, self.size.height),
+                  operation: NSCompositingOperation.sourceOver,
+                  fraction:  1.0)
         
         temp.unlockFocus()
-        
-        temp.size = newSize
         
         return temp.cgImage(forProposedRect: nil, context: nil, hints: nil)
     }
