@@ -140,20 +140,20 @@ extension NSImage {
         return result
     }
     
-    func imageDataResized(to newSize: CGSize) -> UnsafePointer<UInt8>? {
+    func resizedCGImage(to newSize: CGSize) -> CGImage? {
         let temp = NSImage(size: newSize)
-
+        
         temp.lockFocus()
-
-        self.draw(in: NSMakeRect(0, 0, temp.size.width, temp.size.height))
-
+        
+        self.draw(in: NSMakeRect(0, 0, newSize.width, newSize.height), from: NSMakeRect(0, 0, self.size.width, self.size.height), operation: NSCompositingOperation.sourceOver, fraction: CGFloat(1))
+        
         temp.unlockFocus()
-
-        let cgImage = temp.cgImage(forProposedRect: nil, context: nil, hints: nil)
-
-        return CFDataGetBytePtr(cgImage!.dataProvider!.data)
+        
+        temp.size = newSize
+        
+        return temp.cgImage(forProposedRect: nil, context: nil, hints: nil)
     }
-
+    
     /**
      Get `ImageColors` from the image asynchronously (in background thread).
      Discussion: Use smaller sizes for better performance at the cost of quality colors. Use larger sizes for better color sampling and quality at the cost of performance.
@@ -191,8 +191,11 @@ extension NSImage {
         
         var result = ImageColors()
         
-        let width = Int(scaleDownSize.width)
-        let height = Int(scaleDownSize.height)
+        guard let cgImage = self.resizedCGImage(to: scaleDownSize) else {
+            fatalError("ImageColors.getColors failed: could not get cgImage")
+        }
+        let width  = cgImage.width
+        let height = cgImage.height
         
         let blackColor = NSColor(red: 0, green: 0, blue: 0, alpha: 1)
         let whiteColor = NSColor(red: 1, green: 1, blue: 1, alpha: 1)
@@ -209,9 +212,8 @@ extension NSImage {
             }
         }
         
-        // Directly get correct image data
-        guard let data = self.imageDataResized(to: scaleDownSize) else {
-            fatalError("UIImageColors.getColors failed: could not get cgImage data")
+        guard let data = CFDataGetBytePtr(cgImage.dataProvider!.data) else {
+            fatalError("ImageColors.getColors failed: could not get cgImage data")
         }
         
         // Filter out and collect pixels from image
