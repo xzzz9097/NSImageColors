@@ -53,12 +53,15 @@ extension NSColor {
      https://en.wikipedia.org/wiki/Color_difference
      */
     func distance(from compareColor: NSColor) -> CGFloat {
-        let first  = self.cgColor.components
-        let second = compareColor.cgColor.components
+        // We need to compare two colors in the same space
+        // otherwise runtime errors are thrown
+        guard let correctedCompare = compareColor.usingColorSpace(self.colorSpace) else { return 0.0 }
         
-        return  pow(first[0] - second[0], 2.0) +
-            pow(first[1] - second[1], 2.0) +
-            pow(first[2] - second[2], 2.0)
+        let first  = self.cgColor.components
+        let second = correctedCompare.cgColor.components
+        
+        // Sums square of each component's delta between first and second color
+        return zip(first, second).map { pow($0 - $1, 2.0) }.reduce(0) { $0 + $1 }
     }
     
     func isDistinct(compareColor: NSColor) -> Bool {
